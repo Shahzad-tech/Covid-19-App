@@ -12,9 +12,11 @@ import {
   } from 'react-native';
 import { set } from 'react-native-reanimated';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import Entypo from 'react-native-vector-icons/Entypo';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { createStackNavigator, HeaderTitle } from '@react-navigation/stack';
  
-const App=()=>{  
+const HomeScreen=()=>{  
 
 // var resp = ""
 const [resp , setresp ]= useState([])
@@ -64,6 +66,27 @@ return(
 )
 
 
+}
+
+
+const Stack = createStackNavigator();
+function App() {
+
+
+  return (
+    // <NavigationContainer>
+      <Stack.Navigator screenOptions={({navigation})=>({
+
+        headerTitleAlign:"center",
+        headerLeft:()=> ( <TouchableOpacity onPress={()=>navigation.openDrawer()}><Text><Entypo name="menu" size={30} color="#900"></Entypo></Text></TouchableOpacity>),
+        
+
+      })}>
+        <Stack.Screen name="World Statistics" component={HomeScreen}/>
+        {/* <Stack.Screen name="Details" component={FavDetail} /> */}
+      </Stack.Navigator>
+    // </NavigationContainer>
+  );
 }
 
 export default App
