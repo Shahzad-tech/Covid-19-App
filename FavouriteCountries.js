@@ -10,7 +10,8 @@ import {
     StatusBar,
     FlatList,
     Button,
-    ActivityIndicator
+    ActivityIndicator,
+    Alert
   } from 'react-native';
 import { useState } from 'react/cjs/react.development';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -27,16 +28,24 @@ import { createStackNavigator } from '@react-navigation/stack';
 
         const Cname =  await AsyncStorage.getAllKeys()
         
-        // alert(typeof(Cname))
+     
         setfavNames(Cname)
         
     }
 
     const clearFav= async(item)=>{
 
-        await AsyncStorage.removeItem(item)
-        
-        // setfavNames("")
+      Alert.alert(
+        "Country Removed...!",
+        "Country has been removed from the favourites",
+        [
+          { text: "OK", onPress: () => {} }
+        ],
+      );
+      
+      await AsyncStorage.removeItem(item)
+
+    
     }
 
     useEffect(()=>{
@@ -47,9 +56,9 @@ import { createStackNavigator } from '@react-navigation/stack';
    
    
     return(
-        <View>
-            {/* <Text>{favnames}</Text> */}
-            {/* <Button title ='clear'onPress={()=>clearFav()} /> */}
+        <View style={styles.container}>
+          <View style={{marginTop:10}}></View>
+          
             <FlatList
 
                 keyExtractor={(item,ind)=>"Key" + ind }
@@ -57,17 +66,20 @@ import { createStackNavigator } from '@react-navigation/stack';
 
                 renderItem={({item})=> (
           
-                    <View style={{flexDirection:"row"}}>
-                        <View>
+                    <View style={{flexDirection:"row", justifyContent:"center"}}>
+                        
+                    <View style={{width:350, flex:1}} >
                         <TouchableOpacity onPress={() => navigation.navigate("Details", {county: item })}>
                         <Text style={styles.item}>{item}</Text>
                         </TouchableOpacity>
-                        </View>
-                        <View style={{alignItems:"flex-end", alignContent:"flex-end", justifyContent:"flex-end"}}>
+                                            
+                    </View>
+                    <View style={{alignItems:"flex-end"}}>
                             <TouchableOpacity onPress={()=>{clearFav(item)}}>
                             <Text style={styles.itemTwo}><Ionicons name="star-sharp" size={29} color={color}/>  {/*#900*/}</Text>
                             </TouchableOpacity>
-                        </View>
+                    </View>
+        
 
                     </View>
                 )}
@@ -133,12 +145,7 @@ import { createStackNavigator } from '@react-navigation/stack';
         );
       }
       
-    //   const addToFav= async ()=>{
-      
-    //     await AsyncStorage.setItem(country,country)
-    //     setcolor("#900")
-      
-    //   }
+   
       
       
       
@@ -151,20 +158,24 @@ import { createStackNavigator } from '@react-navigation/stack';
               </Text>
 
             </View>
-      
-            {/* <Button title="Che" onPress={()=>{getFav()}}/> */}
-      
-            <Text>Country: {JSON.stringify(details[0].country).slice(1, -1)}</Text>
-            <Text>latitude: {JSON.stringify(details[0].latitude)}</Text>
-            <Text>longitude: {JSON.stringify(details[0].longitude)}</Text>
-            <Text>Date: {JSON.stringify(details[0].date).slice(1, -1)}</Text>
+            <View style={{alignItems:"flex-start", marginBottom:15}}>
+       
+       <View style={{flexDirection:"row"}}><Text style={styles.textt}>longitude :{'  '} </Text><Text style={styles.textTwo}>{JSON.stringify(details[0].longitude)}</Text></View>
+       <View  style={{flexDirection:"row"}}><Text style={styles.textt}>latitude :{'  '} </Text><Text  style={styles.textTwo}>{JSON.stringify(details[0].latitude)}</Text></View>
+       <View  style={{flexDirection:"row"}}><Text style={styles.textt}>Country :{'  '} </Text><Text  style={styles.textTwo}>{JSON.stringify(details[0].country).slice(1, -1)}</Text></View>
+       <View  style={{flexDirection:"row"}}><Text style={styles.textt}>Date :{'  '} </Text><Text  style={styles.textTwo}>{JSON.stringify(details[0].date).slice(1, -1)}</Text></View>
+       
+       </View>
+            
+            
             <FlatList
               keyExtractor={(item,ind)=>"Key" + ind }
               data={details[0].provinces}
               renderItem={({item})=> (
                 <View style={{flexDirection:"row"}}>
                 
-                <Text style={styles.item} >Province: {(item.province)} Confirmed: {item.confirmed} Recovered: {item.recovered} Deaths: {item.deaths} Active: {item.active}
+                <Text style={styles.item} >Province: {(item.province)}{'   '} Confirmed: {item.confirmed}{'\n\n'} Recovered: {item.recovered}{'   '}
+                 Deaths: {item.deaths}{'   '} Active: {item.active}
                 </Text>
       
                 </View>
@@ -185,12 +196,21 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 
     return (
-      // <NavigationContainer>
-        <Stack.Navigator>
+    
+        <Stack.Navigator screenOptions={({navigation})=>({
+
+          headerTitleAlign:"center",
+    
+          headerTintColor:"wheat",
+          headerStyle:{
+            backgroundColor:"orangered"
+          }
+  
+        })}>
           <Stack.Screen name="Favourites" component={FavList}/>
           <Stack.Screen name="Details" component={FavDetail} />
         </Stack.Navigator>
-      // </NavigationContainer>
+     
     );
   }
 
@@ -200,29 +220,48 @@ import { createStackNavigator } from '@react-navigation/stack';
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      marginTop: StatusBar.currentHeight || 0,
+      backgroundColor:"gainsboro"
     },
     item: {
-      fontSize:24,
-      backgroundColor: '#f9c2ff',
+      backgroundColor: 'seashell',
+      fontWeight:"bold",
+      color:"saddlebrown",
       padding: 20,
-      marginVertical: 8,
-      marginHorizontal: 10,
+      borderWidth:1,
+      borderColor:"grey",
+      fontFamily:"sans-serif-light",
       marginLeft:10,
-      width:300
-      
+      width:370,
+ 
+    
     },
     itemTwo:{
-        // backgroundColor: 'grey',
-        padding: 20,
-        marginVertical: 8,
-        marginRight:2,
-        backgroundColor: '#f9c2ff',
-        marginHorizontal: 10, 
+      backgroundColor: 'seashell',
+      fontWeight:"bold",
+      color:"saddlebrown",
+      padding: 14,
+      borderWidth:1,
+      borderColor:"grey",
+      fontFamily:"sans-serif-light",
+    
     },
-    title: {
-      fontSize: 32,
+    textt:{
+     
+      fontFamily:"sans-serif-light",
+      fontSize:23,
+      color:"midnightblue",
+      marginLeft:10,  
+      fontWeight:"bold"
+      
     },
+    textTwo:{
+      fontFamily:"sans-serif-light",
+      fontSize:18,
+      color:"maroon",
+      marginTop:5,
+      justifyContent:"center"
+    }
+   
   });
 
 

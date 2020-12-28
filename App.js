@@ -40,23 +40,26 @@ const Drawer = createDrawerNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home">
+      <Drawer.Navigator initialRouteName="Home"
+      drawerStyle={{
+        backgroundColor:"linen",
+        
+      }}
+      drawerContentOptions={{
+        activeTintColor: 'midnightblue',
+        inactiveTintColor:"olive"
+      }}
+    
+      
+      >
         <Drawer.Screen name="World Statistics" component={WorldStatisticsScreen} />
-        <Drawer.Screen name="countriesList" component={ListofCountries} />
+        <Drawer.Screen name="countriesList" component={ListofCountries} options={{drawerLabel:"Countries"}}/>
         <Drawer.Screen name="Favourites" component={FavouriteCountries} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
 }
-// const App=() => {
-//   return (
-//     <>
-//     <ListofCountries/>
-//     <WorldStatisticsScreen/>
-//      <Text>Hello to me</Text>
-//     </>
-//   );
-// };
+
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -97,4 +100,4 @@ const styles = StyleSheet.create({
   },
 });
 
-// export default App;
+
