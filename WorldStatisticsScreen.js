@@ -15,13 +15,14 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { createStackNavigator, HeaderTitle } from '@react-navigation/stack';
+import Moment from 'moment';
  
 const HomeScreen=()=>{  
 
 // var resp = ""
 const [resp , setresp ]= useState([])
 const [Loading, setloading] = useState(true)
-
+const [worldPopulation, setWorldPopulation] = useState(7794798739)
 
 useEffect(()=>{
 
@@ -55,12 +56,27 @@ if (Loading) {
 
 return( 
     <View>
-        <Text>Confirmed: {JSON.stringify(resp.confirmed)}</Text>
-        <Text>Critical: {JSON.stringify(resp.critical)}</Text>
-        <Text>Deaths: {JSON.stringify(resp.deaths)}</Text>
+      <View style={{flexDirection:"row", justifyContent:"space-between"}}>
+        <Text>Total Population: {worldPopulation}</Text><Text> {((resp.confirmed/worldPopulation)*100).toFixed(2)} % of the world</Text>
+      </View>
+      <View style={{flexDirection:"row", justifyContent:"space-between"}}>
+        <Text>Confirmed Cases: {JSON.stringify(resp.confirmed)}</Text><Text> {((resp.confirmed/worldPopulation)*100).toFixed(2)} % of the world</Text>
+      </View>
+      <View style={{flexDirection:"row", justifyContent:"space-between"}}>
+        <Text>Critical Cases: {JSON.stringify(resp.critical)} </Text><Text>{((resp.critical/worldPopulation)*100).toFixed(9)} % of the world </Text>
+      </View>
+      <View style={{flexDirection:"row", justifyContent:"space-between"}}>
+        <Text>Deaths: {JSON.stringify(resp.deaths)}</Text><Text>{((resp.deaths/worldPopulation)*100).toFixed(2)} % of the world </Text>
+      </View>
+        {/* <View style={{flexDirection:"row", justifyContent:"space-between"}}>  
         <Text>Last Change: {JSON.stringify(resp.lastChange)}</Text>
-        <Text>Last Update: {JSON.stringify(resp.lastUpdate)}</Text>
-        <Text>Recovered: {JSON.stringify(resp.recovered)}</Text>
+        </View> */}
+        <View style={{flexDirection:"row", justifyContent:"space-between"}}>
+        <Text>Last Update:</Text><Text> {Moment(resp.lastUpdate).format("dddd, MMMM Do YYYY, h:mm:ss a")}</Text>
+        </View>
+        <View style={{flexDirection:"row", justifyContent:"space-between"}}>
+        <Text>Recovered Cases: {JSON.stringify(resp.recovered)} </Text><Text>{((resp.recovered/worldPopulation)*100).toFixed(2)} % of the world</Text>
+        </View>
         {/* <Text>{JSON.stringify(resp.map((item)=>{item.confirmed}))}</Text> */}
     </View>
 )

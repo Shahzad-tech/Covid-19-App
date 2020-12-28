@@ -9,7 +9,8 @@ import {
     StatusBar,
     FlatList,
     Button,
-    ActivityIndicator
+    ActivityIndicator, 
+    Input
   } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { useState } from 'react/cjs/react.development';
@@ -19,7 +20,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CountriesScreen=({navigation,route})=>{
-    
+   
+  const [OriginalcountryNames, setOriginalListCountryNames] = useState([])
   const [countryNames, setListCountryNames] = useState([])
   const [filteredName, setFilteredName] = useState("")
   const [displayFilterOne, setdisplayFilterOne] = useState(false)
@@ -36,56 +38,61 @@ const CountriesScreen=({navigation,route})=>{
   .then(responseJson => {
       // setListofCountries(responseJson)
       setListCountryNames(responseJson.body.countries)
+      setOriginalListCountryNames(responseJson.body.countries)
     // console.log(response);
 })
 .catch(err => {
 console.error(err);
 });
 
-})
+},[])
 
   const searchCountry=(text)=>{
-      if(text!=""){
-          for (var i=0; i<countryNames.length; i++){
-              if(text==countryNames[i]){
+
+    
+      setOriginalListCountryNames(countryNames.filter(val=>val.includes(text)))
+    
+    // if(text!=""){
+      //     for (var i=0; i<countryNames.length; i++){
+      //         if(text==countryNames[i]){
                   
-                  setFilteredName(text)
-                  setdisplayFilterOne(true)
-                  // alert("Found")
-              }
-          }
+      //             setFilteredName(text)
+      //             setdisplayFilterOne(true)
+      //             // alert("Found")
+      //         }
+      //     }
         
-          }
+      //     }
          
   }
   
   
   
-  if(displayFilterOne){
-      return( 
-          <View style={{flexDirection:"row"}}>
-          <TouchableOpacity style={{width:350}}  
-          onPress = {
-            () => navigation.navigate("Details", {county: filteredName })
-          }
-          >
-          <Text style={styles.item}>{filteredName}</Text> 
-          </TouchableOpacity>
-          <View> 
-          <TouchableOpacity>
-               <Text style={styles.itemTwo}>S</Text>
-          </TouchableOpacity>    
-          </View>
-          </View>
-          )
+  // if(displayFilterOne){
+  //     return( 
+  //         <View style={{flexDirection:"row"}}>
+  //         <TouchableOpacity style={{width:350}}  
+  //         onPress = {
+  //           () => navigation.navigate("Details", {county: filteredName })
+  //         }
+  //         >
+  //         <Text style={styles.item}>{filteredName}</Text> 
+  //         </TouchableOpacity>
+
+  //         </View>
+  //         )
       
-      // setdisplayFilterOne(false)
-  }
-  else{
+  //     // setdisplayFilterOne(false)
+  // }
+  // else{
   return(    
       
     <View>
-        <View style={{flexDirection:"row", justifyContent:"center"}}>
+    
+        <View style={{flexDirection:"row", justifyContent:"center", alignItems:"center"}}>
+        <Text>
+        <Ionicons name="search-outline" size={23} color={"grey"}/>  {/*#900*/}
+        </Text>
             <TextInput
             style={{borderColor:"red", borderBottomWidth:2}}
             placeholder= "Enter the country to Search"
@@ -96,20 +103,15 @@ console.error(err);
 
         <FlatList
         keyExtractor={(item,ind)=>"Key" + ind }
-        data={countryNames}
+        data={OriginalcountryNames}
         renderItem={({item})=> (
-          <View style={{flexDirection:"row"}}>
+          <View style={{flexDirection:"row", justifyContent:"center"}}>
           <TouchableOpacity style={{width:350}} onPress = {
               () => navigation.navigate("Details", {county: item })
           }>
           <Text style={styles.item} >{JSON.stringify(item).slice(1, -1)} 
           </Text>
           </TouchableOpacity>
-          <View> 
-          <TouchableOpacity >
-               <Text style={styles.itemTwo} >S</Text>
-          </TouchableOpacity>    
-          </View>
           </View>
         )}
         
@@ -119,7 +121,7 @@ console.error(err);
 
   )
         }
-}
+
 
 const CountryDetails=({navigation,route})=>{
   
