@@ -19,7 +19,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import Foundation  from 'react-native-vector-icons/Foundation';
 const CountriesScreen=({navigation,route})=>{
    
   const [OriginalcountryNames, setOriginalListCountryNames] = useState([])
@@ -78,13 +78,13 @@ console.error(err);
     
         <View style={{flexDirection:"row", justifyContent:"center", alignItems:"center", marginBottom:14, marginTop:3}}>
         <Text>
-        <Ionicons name="search-outline" size={23} color={"grey"}/>  {/*#900*/}
+        <Ionicons name="search-outline" size={23} color={"grey"}/>  
         </Text>
             <TextInput
             style={{borderColor:"red", borderBottomWidth:2}}
             placeholder= "Enter the country to Search"
             onChangeText = {(text)=>{searchCountry(text);}}
-          //   value={countrytoSearch}
+          
             />
         </View>
 
@@ -117,7 +117,7 @@ const CountryDetails=({navigation,route})=>{
   const [Load, setload] = useState(true)
   const [color, setcolor] = useState("grey")
 
-  // alert(country)
+ 
 
   const getFav = async()=>{
 
@@ -144,7 +144,7 @@ useEffect(()=>{
   .then(response => {
     setDetails(response)
     setload(false)
-    // console.log(response);
+  
   })
   .catch(err => {
     console.error(err);
@@ -182,7 +182,7 @@ const addToFav= async ()=>{
   return(
 
     <View style={styles.container}>
-      <View style={{alignItems:"flex-end"}}>
+      <View style={{alignItems:"flex-end", marginTop:7}}>
       <TouchableOpacity onPress={()=>{addToFav()}}>
         <Text>
         <Ionicons name="star-sharp" size={30} color={color}/>  {/*#900*/}
@@ -190,7 +190,7 @@ const addToFav= async ()=>{
       </TouchableOpacity>
       </View>
 
-      {/* <Button title="Che" onPress={()=>{getFav()}}/> */}
+    
       <View style={{alignItems:"flex-start", marginBottom:15}}>
        
       <View style={{flexDirection:"row"}}><Text style={styles.textt}>longitude :{'  '} </Text><Text style={styles.textTwo}>{JSON.stringify(details[0].longitude)}</Text></View>
@@ -226,8 +226,10 @@ const Stack = createStackNavigator();
 
 function App() {
   return (
-    // <NavigationContainer>
+  
       <Stack.Navigator  screenOptions={({navigation})=>({
+
+        headerRight:()=><Foundation style={{marginRight:3}} name="flag" size={25} color="wheat"></Foundation>,
 
         headerTitleAlign:"center",
   
@@ -235,12 +237,19 @@ function App() {
         headerStyle:{
           backgroundColor:"orangered"
         }
+        
 
       })}>
         <Stack.Screen name="Countries" component={CountriesScreen}/>
-        <Stack.Screen name="Details" component={CountryDetails} />
+        <Stack.Screen name="Details" 
+          options={{
+            headerRight:()=><Ionicons style={{marginRight:3}}  name="stats-chart" size={25} color="wheat"></Ionicons>,
+
+          }}
+
+        component={CountryDetails} />
       </Stack.Navigator>
-    // </NavigationContainer>
+   
   );
 }
 

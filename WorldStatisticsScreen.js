@@ -15,6 +15,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { createStackNavigator, HeaderTitle } from '@react-navigation/stack';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import Moment from 'moment';
  
 const HomeScreen=()=>{  
@@ -97,13 +98,15 @@ function App() {
         headerTitleAlign:"center",
   
         headerLeft:()=> ( <TouchableOpacity onPress={()=>navigation.openDrawer()}><Text><Entypo name="menu" size={30} color="#900"></Entypo></Text></TouchableOpacity>),
+        headerRight:()=><Fontisto style={{marginRight:3}}  name="world-o" size={25} color="wheat"></Fontisto>,
         headerTintColor:"wheat",
         headerStyle:{
           backgroundColor:"orangered"
         }
 
       })}>
-        <Stack.Screen name="World Statistics" component={HomeScreen}/>
+        <Stack.Screen name="World Statistics" component={HomeScreen}
+        />
        
       </Stack.Navigator>
     
@@ -143,50 +146,3 @@ const styles = StyleSheet.create({
 
 
 export default App
-
-
-// const App=()=>{
-    
-//     const [dataloaded,setdataloaded] = useState(true)
-//     const [dataSource, setDataSource] = useState("")
-
-//   const data=()=>{
-    
-//     return(
-
-//         fetch("https://covid-19-data.p.rapidapi.com/totals", {
-// 	"method": "GET",
-// 	"headers": {
-// 		"x-rapidapi-key": "3f52bc968emsha572038902d9527p1829e7jsn3e116178b142",
-// 		"x-rapidapi-host": "covid-19-data.p.rapidapi.com"
-// 	}
-// })
-// .then((response) => response.json())
-// .then((responseJson)=>{
-//     setdataloaded(false)
-//     setDataSource(responseJson)
-// })
-// .catch(err => {
-//     alert(error)
-//     // console.error(err);
-// })
-//     )
-//   }
-    
-//     if (dataloaded) {
-//         return (
-//           <View style={{ flex: 1, padding: 20 }}>
-//             {/* <ActivityIndicator size="large" color="blue" /> */}
-//             <Text>Loading Data from JSON Placeholder API ...</Text>
-//           </View>
-//         );
-//       }
-//       return(
-//      <View style={{ padding: 30 }}>
-//         <Text>Confirmed: {JSON.stringify(dataSource)}</Text>
-//       </View>
-// )
-
-//      }    
-
-// export default App

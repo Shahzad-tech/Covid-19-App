@@ -17,6 +17,7 @@ import { useState } from 'react/cjs/react.development';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 
 
   const FavList=({navigation})=>{
@@ -126,7 +127,7 @@ import { createStackNavigator } from '@react-navigation/stack';
         .then(response => {
           setDetails(response)
           setloading(false)
-          // console.log(response);
+         
         })
         .catch(err => {
           console.error(err);
@@ -151,10 +152,10 @@ import { createStackNavigator } from '@react-navigation/stack';
       
         return(
           <View>
-            <View style={{alignItems:"flex-end"}}>
+            <View style={{alignItems:"flex-end",marginTop:7}}>
             
               <Text>
-              <Ionicons name="star-sharp" size={30} color={color}/>  {/*#900*/}
+              <Ionicons name="star-sharp" size={30} color={color}/> 
               </Text>
 
             </View>
@@ -199,6 +200,8 @@ import { createStackNavigator } from '@react-navigation/stack';
     
         <Stack.Navigator screenOptions={({navigation})=>({
 
+          headerRight:()=><Fontisto style={{marginRight:3}} name="favorite" size={25} color="wheat"></Fontisto>,
+
           headerTitleAlign:"center",
     
           headerTintColor:"wheat",
@@ -208,7 +211,12 @@ import { createStackNavigator } from '@react-navigation/stack';
   
         })}>
           <Stack.Screen name="Favourites" component={FavList}/>
-          <Stack.Screen name="Details" component={FavDetail} />
+          <Stack.Screen name="Details" component={FavDetail}  
+           options={{
+            headerRight:()=><Ionicons style={{marginRight:3}}  name="stats-chart" size={25} color="wheat"></Ionicons>,
+
+          }}
+          />
         </Stack.Navigator>
      
     );
