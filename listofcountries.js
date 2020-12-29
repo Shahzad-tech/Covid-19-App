@@ -20,7 +20,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Foundation  from 'react-native-vector-icons/Foundation';
-const CountriesScreen=({navigation,route})=>{
+const CountriesScreen=({navigation,route})=>{   /* this will display the main list of countries */
    
   const [OriginalcountryNames, setOriginalListCountryNames] = useState([])
   const [countryNames, setListCountryNames] = useState([])
@@ -29,7 +29,7 @@ const CountriesScreen=({navigation,route})=>{
   const [load, setload] =  useState(true)
 
   useEffect(()=>{
-  fetch("https://world-population.p.rapidapi.com/allcountriesname", {
+  fetch("https://world-population.p.rapidapi.com/allcountriesname", {  /*fetch api*/
 "method": "GET",
 "headers": {
   "x-rapidapi-key": "3f52bc968emsha572038902d9527p1829e7jsn3e116178b142",
@@ -48,12 +48,11 @@ const CountriesScreen=({navigation,route})=>{
 console.error(err);
 });
 
-},[])
+},[]) /* wrapped with empty array dependecy so that use effect is not called every time as the screen renders*/
 
-  const searchCountry=(text)=>{
-
+  const searchCountry=(text)=>{ /* this will search the countries loaded from the api stored in use state. will be called when user will write something in text box*/ 
     
-      setOriginalListCountryNames(countryNames.filter(val=>val.includes(text)))
+      setOriginalListCountryNames(countryNames.filter(val=>val.includes(text)))  
    
          
   }
@@ -110,7 +109,7 @@ console.error(err);
         }
 
 
-const CountryDetails=({navigation,route})=>{
+const CountryDetails=({navigation,route})=>{  /* this screen will be called when user tapes on any country*/
   
   const [details, setDetails] = useState([])
   const country = route.params.county
@@ -119,12 +118,12 @@ const CountryDetails=({navigation,route})=>{
 
  
 
-  const getFav = async()=>{
+  const getFav = async()=>{ //will get the country which is added in fav's.
 
-    const Cname =  await AsyncStorage.getItem(country)
+    const Cname =  await AsyncStorage.getItem(country) 
     
     if(Cname){
-      setcolor("#900")
+      setcolor("#900")  //will change color to red
     }
     
     }
@@ -163,7 +162,7 @@ if (Load) {
   );
 }
 
-const addToFav= async ()=>{
+const addToFav= async ()=>{ //will add countries to fav when the user will press star. AsyncStorage will save the country name as its key and value.
 
   await AsyncStorage.setItem(country,country)
   Alert.alert(
@@ -224,10 +223,10 @@ const addToFav= async ()=>{
 
 const Stack = createStackNavigator();
 
-function App() {
+function App() { //main function
   return (
   
-      <Stack.Navigator  screenOptions={({navigation})=>({
+      <Stack.Navigator  screenOptions={({navigation})=>({ //this will navigate between screens.
 
         headerRight:()=><Foundation style={{marginRight:3}} name="flag" size={25} color="wheat"></Foundation>,
 

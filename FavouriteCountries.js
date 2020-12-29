@@ -20,12 +20,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
 
-  const FavList=({navigation})=>{
+  const FavList=({navigation})=>{  
    
     const[favnames, setfavNames] = useState([])
     const [color, setcolor] = useState("#900")
     
-    const getFav = async()=>{
+    const getFav = async()=>{ //will first get names from asyncStorage i.e favourite countries names.   
 
         const Cname =  await AsyncStorage.getAllKeys()
         
@@ -34,8 +34,8 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
         
     }
 
-    const clearFav= async(item)=>{
-
+    const clearFav= async(item)=>{// this will remove country from async storage when the star will be pressed.
+ 
       Alert.alert(
         "Country Removed...!",
         "Country has been removed from the favourites",
