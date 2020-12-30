@@ -23,30 +23,62 @@ const HomeScreen=()=>{
 // var resp = ""
 const [resp , setresp ]= useState([])
 const [Load, setload] = useState(true)
-const [worldPopulation, setWorldPopulation] = useState(7794798739)
+const [worldPopulation, setWorldPopulation] = useState(0)
+const [WorldPopLoad, setWorldload] = useState(true)
 
-useEffect(()=>{
-
+const getCovidData=()=>{
+  
   fetch("https://covid-19-data.p.rapidapi.com/totals", {
+    "method": "GET",
+    "headers": {
+      "x-rapidapi-key": "3f52bc968emsha572038902d9527p1829e7jsn3e116178b142",
+      "x-rapidapi-host": "covid-19-data.p.rapidapi.com"
+    }
+  })
+  .then((response)=>response.json())
+  .then(responseJson => {
+      // console.log(response);
+      setload(false)
+      setresp(responseJson[0])
+  })
+  .catch(err => {
+    console.error(err);
+  });
+
+}
+const getWorldPopulation=()=>{
+  
+  fetch("https://world-population.p.rapidapi.com/worldpopulation", {
 	"method": "GET",
 	"headers": {
 		"x-rapidapi-key": "3f52bc968emsha572038902d9527p1829e7jsn3e116178b142",
-		"x-rapidapi-host": "covid-19-data.p.rapidapi.com"
+		"x-rapidapi-host": "world-population.p.rapidapi.com"
 	}
 })
-.then((response)=>response.json())
-.then(responseJson => {
-    // console.log(response);
-    setload(false)
-    setresp(responseJson[0])
+.then((response) => response.json())
+.then(resJson=>{
+  setWorldload(false)
+  setWorldPopulation((resJson.body.world_population))
+
 })
 .catch(err => {
 	console.error(err);
 });
 
-}, [] )
+}
 
-if (Load) {
+
+useEffect(()=>{
+
+  getCovidData()
+  getWorldPopulation()
+ 
+
+},[])
+
+
+
+if (Load || WorldPopLoad ) {
     return (
       <View style={{ flex: 1, padding: 20 }}>
       <ActivityIndicator size="large" color="red" />
